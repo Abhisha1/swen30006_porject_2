@@ -47,13 +47,19 @@ public class FuelFocusAutoControllerStrategy extends CarController{
 					turnRight();
 				}
 			}
-		} else {
-			// Start wall-following (with wall on left) as soon as we see a wall straight ahead
+		}
+		else {
 			if(checkWallAhead(getOrientation(),currentView)) {
-				turnRight();
-				isFollowingWall = true;
+				turnLeft();
 			}
 		}
+//			else {
+//			// Start wall-following (with wall on left) as soon as we see a wall straight ahead
+//			if(checkWallAhead(getOrientation(),currentView)) {
+//				turnRight();
+//				isFollowingWall = true;
+//			}
+//		}
 	}
 
 	/**
@@ -159,7 +165,7 @@ public class FuelFocusAutoControllerStrategy extends CarController{
 		System.out.println(orientation);
 		switch(orientation){
 		case EAST:
-			for(int i = 0; i <= wallSensitivity; i++){
+			for(int i = 0; i <= 3; i++){
 				MapTile tile_down = currentView.get(new Coordinate(currentPosition.x, currentPosition.y-i));
 				MapTile tile_up = currentView.get(new Coordinate(currentPosition.x, currentPosition.y+i));
 				if(tile_down.isType(MapTile.Type.TRAP)){
@@ -179,7 +185,7 @@ public class FuelFocusAutoControllerStrategy extends CarController{
 			}
 			return false;
 		case WEST:
-			for(int i = 0; i <= wallSensitivity; i++){
+			for(int i = 0; i <= 3; i++){
 				MapTile tile_up= currentView.get(new Coordinate(currentPosition.x, currentPosition.y+i));
 				MapTile tile_down = currentView.get(new Coordinate(currentPosition.x, currentPosition.y-i));
 				if(tile_up.isType(MapTile.Type.TRAP)){
@@ -200,7 +206,7 @@ public class FuelFocusAutoControllerStrategy extends CarController{
 			return false;
 		case NORTH:
 			System.out.println("NORTH NORTH NORTH");
-			for(int i = 0; i <= wallSensitivity; i++){
+			for(int i = 0; i <= 3; i++){
 				MapTile tile_right = currentView.get(new Coordinate(currentPosition.x+i, currentPosition.y));
 				MapTile tile_left = currentView.get(new Coordinate(currentPosition.x-i, currentPosition.y));
 				if(tile_right.isType(MapTile.Type.TRAP)){
@@ -220,7 +226,7 @@ public class FuelFocusAutoControllerStrategy extends CarController{
 			}
 			return false;
 		case SOUTH:
-			for(int i = 0; i <= wallSensitivity; i++){
+			for(int i = 0; i <= 3; i++){
 				MapTile tile_right = currentView.get(new Coordinate(currentPosition.x-i, currentPosition.y));
 				MapTile tile_left = currentView.get(new Coordinate(currentPosition.x+i, currentPosition.y));
 				if(tile_right.isType(MapTile.Type.TRAP)){
