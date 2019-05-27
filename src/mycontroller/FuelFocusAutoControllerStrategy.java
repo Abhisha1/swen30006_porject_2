@@ -1,13 +1,13 @@
 package mycontroller;
 
-	import controller.CarController;
-	import world.Car;
-	import java.util.HashMap;
+import controller.CarController;
+import world.Car;
+import java.util.HashMap;
 
-	import tiles.MapTile;
-	import tiles.TrapTile;
-	import utilities.Coordinate;
-	import world.WorldSpatial;
+import tiles.MapTile;
+import tiles.TrapTile;
+import utilities.Coordinate;
+import world.WorldSpatial;
 public class FuelFocusAutoControllerStrategy extends CarController{
 
 
@@ -29,13 +29,11 @@ public class FuelFocusAutoControllerStrategy extends CarController{
 	public void update() {
 		// Gets what the car can see
 		HashMap<Coordinate, MapTile> currentView = getView();
-		
 		// checkStateChange();
 		if(getSpeed() < CAR_MAX_SPEED){       // Need speed to turn and progress toward the exit
 			applyForwardAcceleration();   // Tough luck if there's a wall in the way
 		}
 		if (findParcel(getOrientation(), currentView)) {
-			
 		}
 		else if (isFollowingWall) {
 			// If wall no longer on left, turn left
@@ -53,13 +51,6 @@ public class FuelFocusAutoControllerStrategy extends CarController{
 				turnLeft();
 			}
 		}
-//			else {
-//			// Start wall-following (with wall on left) as soon as we see a wall straight ahead
-//			if(checkWallAhead(getOrientation(),currentView)) {
-//				turnRight();
-//				isFollowingWall = true;
-//			}
-//		}
 	}
 
 	/**
