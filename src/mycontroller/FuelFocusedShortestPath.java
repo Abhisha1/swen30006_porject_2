@@ -15,11 +15,7 @@ import utilities.Coordinate;
 import world.WorldSpatial;
 public class FuelFocusedShortestPath extends CarController{
 
-
-	// How many minimum units the wall is away from the player.
-	private int wallSensitivity = 1;
-	
-	private boolean isFollowingWall = false; // This is set to true when the car starts sticking to a wall.
+	private static boolean loopAvoidance;
 	
 	// Car Speed to move at
 	private final int CAR_MAX_SPEED = 1;
@@ -28,11 +24,14 @@ public class FuelFocusedShortestPath extends CarController{
 	
 	private static ArrayList<Coordinate> parcels_to_collect;
 	
+	private static HashMap<Coordinate, world.WorldSpatial.RelativeDirection> prevTurns;
+	
 	public FuelFocusedShortestPath(Car car) {
 		super(car);
 		
 		// parcels that need to be collected
 		parcels_to_collect = new ArrayList<Coordinate>();
+		prevTurns = new HashMap<Coordinate, world.WorldSpatial.RelativeDirection>();
 
 	}
 	
@@ -51,8 +50,12 @@ public class FuelFocusedShortestPath extends CarController{
 		// check if a parcel has been collected
 		discovered_parcel(currentView, current_coord);
 		
+		if (loop_detected(getOrientation(), current_coord)) {
+			System.out.println("loop detection");
+		}
+		
 		// checks if car will run into wall
-		if (collisionAvoidance(getOrientation(),currentView)) {
+		if (collisionAvoidance(current_coord,getOrientation(),currentView)) {
 			
 		}
 		// tries navigating on short route to parcel
@@ -68,7 +71,7 @@ public class FuelFocusedShortestPath extends CarController{
 		
 		// car turns direction if path has a recommended turn
 		if (turn == null) {
-			
+			prevTurns.put(current_coord, null);
 		}
 		else{
 			System.out.print("WILL TURN"+turn.toString());
@@ -76,9 +79,11 @@ public class FuelFocusedShortestPath extends CarController{
 			case LEFT:
 				turnLeft();
 				turn = null;
+				prevTurns.put(current_coord, world.WorldSpatial.RelativeDirection.LEFT);
 				break;
 			case RIGHT:
 				turnRight();
+				prevTurns.put(current_coord, world.WorldSpatial.RelativeDirection.RIGHT);
 				turn = null;
 				break;
 			default:
@@ -87,6 +92,47 @@ public class FuelFocusedShortestPath extends CarController{
 		}
 		
 	}
+	
+	private boolean loop_detected(WorldSpatial.Direction orientation, Coordinate current_coord) {
+		if (prevTurns.containsKey(current_coord)) {
+			switch(orientation) {
+			case EAST:
+				if (current_coord.y < world.World.MAP_HEIGHT) {
+					turn= world.WorldSpatial.RelativeDirection.LEFT; 
+					return true;
+				}
+				if (current_coord.y == world.World.MAP_HEIGHT) {
+					loopAvoidance = false;
+				}
+				return false;
+			case WEST:
+				if (current_coord.y < world.World.MAP_HEIGHT) {
+					turn=world.WorldSpatial.RelativeDirection.RIGHT;
+					return true;
+				}
+				if (current_coord.y == world.World.MAP_HEIGHT) {
+					loopAvoidance = false;
+				}return false;
+			case NORTH:
+				if (current_coord.x < world.World.MAP_WIDTH) {
+					turn=world.WorldSpatial.RelativeDirection.RIGHT; 
+				}
+				if (current_coord.x == world.World.MAP_WIDTH) {
+					loopAvoidance = false;
+				}return false;
+			case SOUTH:
+				if (current_coord.x < world.World.MAP_WIDTH) {
+					turn = world.WorldSpatial.RelativeDirection.LEFT;
+					return true;
+				}
+				if (current_coord.x == world.World.MAP_WIDTH) {
+					loopAvoidance = false;
+				}return false;
+			default:
+				return false;
+		}
+	}return false;
+}
 	
 	private void discovered_parcel(HashMap<Coordinate, MapTile> currentView, Coordinate coord) {
 		for (Coordinate parcel_coordinates: parcels_to_collect) {
@@ -111,6 +157,7 @@ public class FuelFocusedShortestPath extends CarController{
 				if (tile.isType(MapTile.Type.TRAP)){
 					TrapTile trap = (TrapTile) tile;
 					if (trap.getTrap() == "parcel" && !parcels_to_collect.contains(test_coord)) {
+						loopAvoidance = false;
 						System.out.println("got a parcel at position"+test_coord);
 						parcels_to_collect.add(test_coord);
 						if (parcels_to_collect.size() == this.numParcels()) {
@@ -142,6 +189,7 @@ public class FuelFocusedShortestPath extends CarController{
 			return false;
 		}
 	}
+	
 	public world.WorldSpatial.RelativeDirection advance_horizontal(WorldSpatial.Direction orientation,HashMap<Coordinate, MapTile> currentView) {
 		Coordinate currentPosition = new Coordinate(getPosition());
 		Coordinate nextPosition;
@@ -169,6 +217,7 @@ public class FuelFocusedShortestPath extends CarController{
 			return null;
 		}
 	}
+	
 	public world.WorldSpatial.RelativeDirection advance_vertical(WorldSpatial.Direction orientation, HashMap<Coordinate, MapTile> currentView) {
 		Coordinate currentPosition = new Coordinate(getPosition());
 		Coordinate nextPosition;
@@ -204,29 +253,29 @@ public class FuelFocusedShortestPath extends CarController{
 		}return false;
 	}
 	
-	public boolean collisionAvoidance(WorldSpatial.Direction orientation, HashMap<Coordinate, MapTile> currentView) {
-		Coordinate currentPosition = new Coordinate(getPosition());
+	public boolean collisionAvoidance(Coordinate coordinate, WorldSpatial.Direction orientation, HashMap<Coordinate, MapTile> currentView) {
+		
 		switch(orientation) {
 		case EAST:
-			if (isWall(new Coordinate(currentPosition.x+1, currentPosition.y), currentView)){
+			if (isWall(new Coordinate(coordinate.x+1, coordinate.y), currentView)){
 				turn = world.WorldSpatial.RelativeDirection.LEFT;
 				return true;
 			}
 			return false;
 		case NORTH:
-			if (isWall(new Coordinate(currentPosition.x, currentPosition.y+1), currentView)){
+			if (isWall(new Coordinate(coordinate.x, coordinate.y+1), currentView)){
 				turn = world.WorldSpatial.RelativeDirection.LEFT;
 				return true;
 			}
 			return false;
 		case SOUTH:
-			if (isWall(new Coordinate(currentPosition.x, currentPosition.y-1), currentView)){
+			if (isWall(new Coordinate(coordinate.x, coordinate.y-1), currentView)){
 				turn = world.WorldSpatial.RelativeDirection.LEFT;
 				return true;
 			}
 			return false;
 		case WEST:
-			if (isWall(new Coordinate(currentPosition.x-1, currentPosition.y), currentView)){
+			if (isWall(new Coordinate(coordinate.x-1, coordinate.y), currentView)){
 				turn = world.WorldSpatial.RelativeDirection.LEFT;
 				return true;
 			}
