@@ -13,11 +13,10 @@ import tiles.MapTile;
 import tiles.TrapTile;
 import utilities.Coordinate;
 import world.WorldSpatial;
-public class FuelFocusedShortestPath extends CarController{
+public class fuelFocus extends CarController{
 	// How many minimum units the wall is away from the player.
 	private int wallSensitivity = 1;
 
-	private static boolean loopAvoidance;
 	
 	// Car Speed to move at
 	private final int CAR_MAX_SPEED = 1;
@@ -28,13 +27,15 @@ public class FuelFocusedShortestPath extends CarController{
 	
 	private static HashMap<Coordinate, world.WorldSpatial.RelativeDirection> prevTurns;
 	
-	public FuelFocusedShortestPath(Car car) {
+	private static ArrayList<Coordinate> finalDestination;
+	
+	public fuelFocus(Car car) {
 		super(car);
 		
 		// parcels that need to be collected
 		parcels_to_collect = new ArrayList<Coordinate>();
 		prevTurns = new HashMap<Coordinate, world.WorldSpatial.RelativeDirection>();
-
+		finalDestination = new ArrayList<Coordinate>();
 	}
 	
 	// Coordinate initialGuess;
@@ -49,34 +50,38 @@ public class FuelFocusedShortestPath extends CarController{
 		}
 		System.out.println(world.World.MAP_HEIGHT);
 		Coordinate current_coord = new Coordinate(getPosition());
-		// check if a parcel has been collected
-		discovered_parcel(currentView, current_coord);
-		
-		// searches for any new parcels
-		find_parcels();
-		System.out.println("num of parcels located is" + parcels_to_collect.size());
-		loopAvoidance = false;
-		if (loop_detected(getOrientation(), current_coord)) {
-			loopAvoidance = true;
-			System.out.println("loop detection");
-		}
-		
-		// checks if car will run into wall
-		if (collisionAvoidance(current_coord,getOrientation(),currentView)) {
+		if (this.numParcelsFound() < this.numParcels()) {
+			// check if a parcel has been collected
+			discovered_parcel(currentView, current_coord);
 			
+			// searches for any new parcels
+			find_parcels();
+			System.out.println("num of parcels located is" + parcels_to_collect.size());
+			// tries navigating on short route to parcel
+			if (parcels_to_collect.size() >0) {
+				if (shortest_path_turn(getOrientation(), currentView)) {
+					
+				}	
+			}
 		}
-		// tries navigating on short route to parcel
-		else if (parcels_to_collect.size() >0 && !loopAvoidance) {
-			if (shortest_path_turn(getOrientation(), currentView)) {
-				
-			}	
+		else {
+			// go to end
 		}
-		
+		loopAvoidance(current_coord);
 		
 		// car turns direction if path has a recommended turn
+		permitted_Turn(current_coord, getOrientation(), currentView);
+		
+	}
+	
+	private void permitted_Turn(Coordinate current_coord, WorldSpatial.Direction orientation,HashMap<Coordinate, MapTile> currentView) {
 		if (turn == null) {
 			if(!checkWallAhead(getOrientation(), currentView)) {
 				prevTurns.put(current_coord, null);
+			}
+			else {
+				turn = world.WorldSpatial.RelativeDirection.LEFT;
+				permitted_Turn(current_coord, orientation,currentView);
 			}
 		}
 		else{
@@ -87,48 +92,43 @@ public class FuelFocusedShortestPath extends CarController{
 					turnLeft();
 					turn = null;
 					prevTurns.put(current_coord, world.WorldSpatial.RelativeDirection.LEFT);
+					break;
 				}
-				turn = null;
-				break;
+				else {
+					turn = world.WorldSpatial.RelativeDirection.RIGHT;
+					permitted_Turn(current_coord, orientation,currentView);
+					break;
+				}
 			case RIGHT:
 				if (!checkRightWall(getOrientation(), currentView)) {
 					turnRight();
 					prevTurns.put(current_coord, world.WorldSpatial.RelativeDirection.RIGHT);
 					turn = null;
+					break;
 				}
-				turn = null;
-				break;
+				else {
+					turn = null;
+					permitted_Turn(current_coord, orientation,currentView);
+					break;
+				}
 			default:
 				break;
 			}
 		}
-		
 	}
 	
-	private boolean loop_detected(WorldSpatial.Direction orientation, Coordinate current_coord) {
-		if (prevTurns.containsKey(current_coord)) {
-			if (prevTurns.get(current_coord) != null) {
-				System.out.println("inside a loop"+orientation.toString());
-				switch(prevTurns.get(current_coord)) {
-				case LEFT:
-					turn=null;
-					return true;
-				case RIGHT:
-					turn=null;
-					return true;
-				}
-			}
-			else {
-				turn=world.WorldSpatial.RelativeDirection.RIGHT;
-				return true;
-			}
-	}return false;
-}
+	private void loopAvoidance(Coordinate coord) {
+		if (prevTurns.containsKey(coord) && prevTurns.get(coord)!= null) {
+			turn = world.WorldSpatial.RelativeDirection.RIGHT;
+		}
+		
+	}
 	
 	private void discovered_parcel(HashMap<Coordinate, MapTile> currentView, Coordinate coord) {
 		for (Coordinate parcel_coordinates: parcels_to_collect) {
 			if (coord.equals(parcel_coordinates)){
 				parcels_to_collect.remove(coord);
+				prevTurns.clear();
 				break;
 			}
 		}
@@ -147,12 +147,14 @@ public class FuelFocusedShortestPath extends CarController{
 				if (tile.isType(MapTile.Type.TRAP)){
 					TrapTile trap = (TrapTile) tile;
 					if (trap.getTrap() == "parcel" && !parcels_to_collect.contains(test_coord)) {
-						loopAvoidance = false;
 						parcels_to_collect.add(0, test_coord);
 						if (parcels_to_collect.size() == this.numParcels()) {
 							break;
 						}
 					}
+				}
+				else if(tile.isType(MapTile.Type.FINISH) && !finalDestination.contains(test_coord)) {
+					finalDestination.add(test_coord);
 				}
 			}
 		}
@@ -224,50 +226,6 @@ public class FuelFocusedShortestPath extends CarController{
 			return null;
 		}
 	}
-	
-	public boolean isWall(Coordinate coord, HashMap<Coordinate, MapTile> currentView) {
-		MapTile tile = currentView.get(coord);
-		if(tile.isType(MapTile.Type.WALL)) {
-			return true;
-		}return false;
-	}
-	
-	public boolean collisionAvoidance(Coordinate coordinate, WorldSpatial.Direction orientation, HashMap<Coordinate, MapTile> currentView) {
-		
-		switch(orientation) {
-		case EAST:
-			if (isWall(new Coordinate(coordinate.x+1, coordinate.y), currentView)){
-				turn = world.WorldSpatial.RelativeDirection.LEFT;
-				System.out.println("collision avoid");
-				return true;
-			}
-			return false;
-		case NORTH:
-			if (isWall(new Coordinate(coordinate.x, coordinate.y+1), currentView)){
-				turn = world.WorldSpatial.RelativeDirection.LEFT;
-				System.out.println("collision avoid");
-				return true;
-			}
-			return false;
-		case SOUTH:
-			if (isWall(new Coordinate(coordinate.x, coordinate.y-1), currentView)){
-				turn = world.WorldSpatial.RelativeDirection.LEFT;
-				System.out.println("collision avoid");
-				return true;
-			}
-			return false;
-		case WEST:
-			if (isWall(new Coordinate(coordinate.x-1, coordinate.y), currentView)){
-				turn = world.WorldSpatial.RelativeDirection.LEFT;
-				System.out.println("collision avoid");
-				return true;
-			}
-			return false;
-		default:
-			return false;
-		}
-	}
-	
 	
 	private boolean checkWallAhead(WorldSpatial.Direction orientation, HashMap<Coordinate, MapTile> currentView){
 		switch(orientation){
