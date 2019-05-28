@@ -13,11 +13,9 @@ import tiles.MapTile;
 import tiles.TrapTile;
 import utilities.Coordinate;
 import world.WorldSpatial;
-public class FuelFocusedShortestPath extends CarController{
+public class FuelStrategy extends CarController{
 	// How many minimum units the wall is away from the player.
 	private int wallSensitivity = 1;
-
-	private static boolean loopAvoidance;
 	
 	// Car Speed to move at
 	private final int CAR_MAX_SPEED = 1;
@@ -28,7 +26,7 @@ public class FuelFocusedShortestPath extends CarController{
 	
 	private static HashMap<Coordinate, world.WorldSpatial.RelativeDirection> prevTurns;
 	
-	public FuelFocusedShortestPath(Car car) {
+	public FuelStrategy(Car car) {
 		super(car);
 		
 		// parcels that need to be collected
@@ -52,26 +50,20 @@ public class FuelFocusedShortestPath extends CarController{
 		// check if a parcel has been collected
 		discovered_parcel(currentView, current_coord);
 		
-		// searches for any new parcels
-		find_parcels();
-		System.out.println("num of parcels located is" + parcels_to_collect.size());
-		loopAvoidance = false;
 		if (loop_detected(getOrientation(), current_coord)) {
-			loopAvoidance = true;
 			System.out.println("loop detection");
 		}
 		
-		// checks if car will run into wall
-		if (collisionAvoidance(current_coord,getOrientation(),currentView)) {
-			
-		}
 		// tries navigating on short route to parcel
-		else if (parcels_to_collect.size() >0 && !loopAvoidance) {
+		else if (parcels_to_collect.size() >0) {
 			if (shortest_path_turn(getOrientation(), currentView)) {
 				
 			}	
 		}
-		
+		// searches for any new parcels
+		else {
+			find_parcels();
+		}
 		
 		// car turns direction if path has a recommended turn
 		if (turn == null) {
@@ -88,7 +80,6 @@ public class FuelFocusedShortestPath extends CarController{
 					turn = null;
 					prevTurns.put(current_coord, world.WorldSpatial.RelativeDirection.LEFT);
 				}
-				turn = null;
 				break;
 			case RIGHT:
 				if (!checkRightWall(getOrientation(), currentView)) {
@@ -96,7 +87,6 @@ public class FuelFocusedShortestPath extends CarController{
 					prevTurns.put(current_coord, world.WorldSpatial.RelativeDirection.RIGHT);
 					turn = null;
 				}
-				turn = null;
 				break;
 			default:
 				break;
@@ -107,50 +97,36 @@ public class FuelFocusedShortestPath extends CarController{
 	
 	private boolean loop_detected(WorldSpatial.Direction orientation, Coordinate current_coord) {
 		if (prevTurns.containsKey(current_coord)) {
-			if (prevTurns.get(current_coord) != null) {
-				System.out.println("inside a loop"+orientation.toString());
-				switch(prevTurns.get(current_coord)) {
-				case LEFT:
-					turn=null;
-					return true;
-				case RIGHT:
-					turn=null;
+			System.out.println("inside a loop"+orientation.toString());
+			switch(orientation) {
+			case EAST:
+				if (current_coord.y == world.World.MAP_HEIGHT) {
+					loopAvoidance = false;
+				}
+				return false;
+			case WEST:
+				if (current_coord.y == world.World.MAP_HEIGHT) {
+					loopAvoidance = false;
+				}return false;
+			case NORTH:
+				if (current_coord.x < world.World.MAP_WIDTH) {
+					turn=world.WorldSpatial.RelativeDirection.RIGHT; 
+				}
+				if (current_coord.x == world.World.MAP_WIDTH) {
+					loopAvoidance = false;
+				}
+				return false;
+			case SOUTH:
+				if (current_coord.x < world.World.MAP_WIDTH) {
+					turn = world.WorldSpatial.RelativeDirection.LEFT;
 					return true;
 				}
-			}
-			else {
-				turn=world.WorldSpatial.RelativeDirection.RIGHT;
-				return true;
-			}
-//			switch(orientation) {
-//			case EAST:
-//				if (current_coord.y == world.World.MAP_HEIGHT) {
-//					loopAvoidance = false;
-//				}
-//				return false;
-//			case WEST:
-//				if (current_coord.y == world.World.MAP_HEIGHT) {
-//					loopAvoidance = false;
-//				}return false;
-//			case NORTH:
-//				if (current_coord.x < world.World.MAP_WIDTH) {
-//					turn=world.WorldSpatial.RelativeDirection.RIGHT; 
-//				}
-//				if (current_coord.x == world.World.MAP_WIDTH) {
-//					loopAvoidance = false;
-//				}
-//				return false;
-//			case SOUTH:
-//				if (current_coord.x < world.World.MAP_WIDTH) {
-//					turn = world.WorldSpatial.RelativeDirection.LEFT;
-//					return true;
-//				}
-//				if (current_coord.x == world.World.MAP_WIDTH) {
-//					loopAvoidance = false;
-//				}return false;
-//			default:
-//				return false;
-//		}
+				if (current_coord.x == world.World.MAP_WIDTH) {
+					loopAvoidance = false;
+				}return false;
+			default:
+				return false;
+		}
 	}return false;
 }
 	
@@ -177,7 +153,7 @@ public class FuelFocusedShortestPath extends CarController{
 					TrapTile trap = (TrapTile) tile;
 					if (trap.getTrap() == "parcel" && !parcels_to_collect.contains(test_coord)) {
 						loopAvoidance = false;
-						parcels_to_collect.add(0, test_coord);
+						parcels_to_collect.add(test_coord);
 						if (parcels_to_collect.size() == this.numParcels()) {
 							break;
 						}
