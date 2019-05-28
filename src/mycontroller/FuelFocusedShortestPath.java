@@ -30,21 +30,10 @@ public class FuelFocusedShortestPath extends CarController{
 	
 	public FuelFocusedShortestPath(Car car) {
 		super(car);
-//		HashMap<Coordinate, MapTile> currentView = getView();
+		
+		// parcels that need to be collected
 		parcels_to_collect = new ArrayList<Coordinate>();
-//		for(HashMap.Entry<Coordinate, MapTile> entry: currentView.entrySet()) {
-//			MapTile tile = entry.getValue();
-//			if (tile.isType(MapTile.Type.TRAP)){
-//				TrapTile trap = (TrapTile) tile;
-//				if (trap.getTrap() == "parcel") {
-//					System.out.println("got a parcel");
-//					parcels_to_collect.add(entry.getKey());
-//					if (parcels_to_collect.size() == this.numParcels()) {
-//						break;
-//					}
-//				}
-//			}
-//		}
+
 	}
 	
 	// Coordinate initialGuess;
@@ -59,18 +48,25 @@ public class FuelFocusedShortestPath extends CarController{
 		}
 		System.out.println(world.World.MAP_HEIGHT);
 		Coordinate current_coord = new Coordinate(getPosition());
+		// check if a parcel has been collected
 		discovered_parcel(currentView, current_coord);
+		
+		// checks if car will run into wall
 		if (collisionAvoidance(getOrientation(),currentView)) {
 			
 		}
+		// tries navigating on short route to parcel
 		else if (parcels_to_collect.size() >0) {
 			if (shortest_path_turn(getOrientation(), currentView)) {
 				
 			}	
 		}
+		// searches for any new parcels
 		else {
 			find_parcels();
 		}
+		
+		// car turns direction if path has a recommended turn
 		if (turn == null) {
 			
 		}
@@ -93,19 +89,18 @@ public class FuelFocusedShortestPath extends CarController{
 	}
 	
 	private void discovered_parcel(HashMap<Coordinate, MapTile> currentView, Coordinate coord) {
-		MapTile tile = currentView.get(coord);
-		if (tile.isType(MapTile.Type.TRAP)){
-			TrapTile trap = (TrapTile) currentView.get(coord);
-			System.out.println("checkie tile is "+ trap.getTrap());
-			if (trap.getTrap() == "parcel" && parcels_to_collect.contains(coord)) {
+		for (Coordinate parcel_coordinates: parcels_to_collect) {
+			if (coord.equals(parcel_coordinates)){
 				System.out.println("GHEJGEHJGEGJEFGEGJGRE");
 				parcels_to_collect.remove(coord);
+				break;
 			}
 		}
 	}
 	
 	
 	private void find_parcels() {
+		// searches for parcels
 		HashMap<Coordinate, MapTile> currentView = getView();
 		
 		Coordinate current_pos = new Coordinate(getPosition());
@@ -116,7 +111,7 @@ public class FuelFocusedShortestPath extends CarController{
 				if (tile.isType(MapTile.Type.TRAP)){
 					TrapTile trap = (TrapTile) tile;
 					if (trap.getTrap() == "parcel" && !parcels_to_collect.contains(test_coord)) {
-						System.out.println("got a parcel");
+						System.out.println("got a parcel at position"+test_coord);
 						parcels_to_collect.add(test_coord);
 						if (parcels_to_collect.size() == this.numParcels()) {
 							break;
