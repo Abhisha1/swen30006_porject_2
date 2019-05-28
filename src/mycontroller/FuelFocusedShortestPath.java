@@ -97,19 +97,11 @@ public class FuelFocusedShortestPath extends CarController{
 		if (prevTurns.containsKey(current_coord)) {
 			switch(orientation) {
 			case EAST:
-				if (current_coord.y < world.World.MAP_HEIGHT) {
-					turn= world.WorldSpatial.RelativeDirection.LEFT; 
-					return true;
-				}
 				if (current_coord.y == world.World.MAP_HEIGHT) {
 					loopAvoidance = false;
 				}
 				return false;
 			case WEST:
-				if (current_coord.y < world.World.MAP_HEIGHT) {
-					turn=world.WorldSpatial.RelativeDirection.RIGHT;
-					return true;
-				}
 				if (current_coord.y == world.World.MAP_HEIGHT) {
 					loopAvoidance = false;
 				}return false;
@@ -119,7 +111,8 @@ public class FuelFocusedShortestPath extends CarController{
 				}
 				if (current_coord.x == world.World.MAP_WIDTH) {
 					loopAvoidance = false;
-				}return false;
+				}
+				return false;
 			case SOUTH:
 				if (current_coord.x < world.World.MAP_WIDTH) {
 					turn = world.WorldSpatial.RelativeDirection.LEFT;
@@ -137,7 +130,6 @@ public class FuelFocusedShortestPath extends CarController{
 	private void discovered_parcel(HashMap<Coordinate, MapTile> currentView, Coordinate coord) {
 		for (Coordinate parcel_coordinates: parcels_to_collect) {
 			if (coord.equals(parcel_coordinates)){
-				System.out.println("GHEJGEHJGEGJEFGEGJGRE");
 				parcels_to_collect.remove(coord);
 				break;
 			}
@@ -158,7 +150,6 @@ public class FuelFocusedShortestPath extends CarController{
 					TrapTile trap = (TrapTile) tile;
 					if (trap.getTrap() == "parcel" && !parcels_to_collect.contains(test_coord)) {
 						loopAvoidance = false;
-						System.out.println("got a parcel at position"+test_coord);
 						parcels_to_collect.add(test_coord);
 						if (parcels_to_collect.size() == this.numParcels()) {
 							break;
@@ -192,25 +183,20 @@ public class FuelFocusedShortestPath extends CarController{
 	
 	public world.WorldSpatial.RelativeDirection advance_horizontal(WorldSpatial.Direction orientation,HashMap<Coordinate, MapTile> currentView) {
 		Coordinate currentPosition = new Coordinate(getPosition());
-		Coordinate nextPosition;
 		System.out.print("the parcel x is "+parcels_to_collect.get(0).x+"but xar"+currentPosition.x);
 		switch(orientation) {
 		case NORTH:
 			if (currentPosition.x < parcels_to_collect.get(0).x) {
-				nextPosition = new Coordinate(currentPosition.x-1, currentPosition.y);
 				return world.WorldSpatial.RelativeDirection.RIGHT; 
 			}
 			else if (currentPosition.x > parcels_to_collect.get(0).x) {
-				nextPosition = new Coordinate(currentPosition.x-1, currentPosition.y);
 				return world.WorldSpatial.RelativeDirection.LEFT;
 			}return null;
 		case SOUTH:
 			if (currentPosition.x < parcels_to_collect.get(0).x) {
-				nextPosition = new Coordinate(currentPosition.x-1, currentPosition.y);
 				return world.WorldSpatial.RelativeDirection.LEFT;
 			}
 			else if (currentPosition.x > parcels_to_collect.get(0).x) {
-				nextPosition = new Coordinate(currentPosition.x-1, currentPosition.y);
 				return world.WorldSpatial.RelativeDirection.RIGHT;
 			}return null;
 		default:
@@ -220,25 +206,20 @@ public class FuelFocusedShortestPath extends CarController{
 	
 	public world.WorldSpatial.RelativeDirection advance_vertical(WorldSpatial.Direction orientation, HashMap<Coordinate, MapTile> currentView) {
 		Coordinate currentPosition = new Coordinate(getPosition());
-		Coordinate nextPosition;
 		System.out.print("the parcel y is "+parcels_to_collect.get(0).y+"but yar"+currentPosition.y);
 		switch(orientation) {
 		case EAST:
 			if (currentPosition.y < parcels_to_collect.get(0).y) {
-				nextPosition = new Coordinate(currentPosition.x, currentPosition.y+1);
 				return world.WorldSpatial.RelativeDirection.LEFT; 
 			}
 			else if (currentPosition.y > parcels_to_collect.get(0).y) {
-				nextPosition = new Coordinate(currentPosition.x, currentPosition.y-1);
 				return world.WorldSpatial.RelativeDirection.RIGHT;
 			}return null;
 		case WEST:
 			if (currentPosition.y < parcels_to_collect.get(0).y) {
-				nextPosition = new Coordinate(currentPosition.x, currentPosition.y+1);
 				return world.WorldSpatial.RelativeDirection.RIGHT;
 			}
 			else if (currentPosition.y > parcels_to_collect.get(0).y) {
-				nextPosition = new Coordinate(currentPosition.x, currentPosition.y-1);
 				return world.WorldSpatial.RelativeDirection.LEFT;
 			}return null;
 		default:
