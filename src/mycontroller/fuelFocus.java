@@ -133,14 +133,6 @@ public class fuelFocus extends CarController{
 		
 	}
 	
-	private boolean isParcelNear(HashMap<Coordinate, MapTile> currentView, Coordinate currentCoord) {
-		for(Coordinate parcels: parcels_to_collect) {
-			if(Math.abs(currentCoord.x- parcels.x) < 5 && Math.abs(currentCoord.y- parcels.y) < 5) {
-				return true;
-			}
-		}
-		return false;
-	}
 	
 	private boolean lavaAvoid(HashMap<Coordinate, MapTile> currentView, Coordinate currentCoord) {
 		for(int i = 0; i < 4; i++) {
