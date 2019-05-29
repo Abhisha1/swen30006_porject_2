@@ -195,7 +195,7 @@ public class fuelFocus extends CarController{
 	private void goToExit(Coordinate currentPos) {
 
 		if(nextBackTrackCoord == null) {
-			if(recordedSteps.size() == 0) {
+			if(recordedSteps.size() <= 1) {
 				nextBackTrackCoord = exit.getCoord();
 			}else {
 				nextBackTrackCoord = recordedSteps.remove(recordedSteps.size()-1);
@@ -222,7 +222,7 @@ public class fuelFocus extends CarController{
 			for (int j = currentPos.y - 4; j <= currentPos.y + 4; j++) {
 				Coordinate coord = new Coordinate(i, j);
 				MapTile tile = currentView.get(coord);
-				if(tile.isType(MapTile.Type.FINISH) && !startedExit) {
+				if(tile.isType(MapTile.Type.FINISH) && (!startedExit)) {
 					this.exit = new Exit();
 					this.exit.setCoord(coord);
 
