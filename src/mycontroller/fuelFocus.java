@@ -1,6 +1,7 @@
 package mycontroller;
 
 import controller.CarController;
+import org.lwjgl.Sys;
 import world.Car;
 
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ public class fuelFocus extends CarController{
 	// How many minimum units the wall is away from the player.
 	private int wallSensitivity = 1;
 
+	public Exit exit = null;
 	
 	// Car Speed to move at
 	private final int CAR_MAX_SPEED = 1;
@@ -28,7 +30,15 @@ public class fuelFocus extends CarController{
 	private static HashMap<Coordinate, world.WorldSpatial.RelativeDirection> prevTurns;
 	
 	private static ArrayList<Coordinate> finalDestination;
-	
+
+	private ArrayList<Coordinate> recordedSteps = new ArrayList<>();
+
+	private Coordinate nextBackTrackCoord = null;
+
+	private boolean startedExit = false;
+	private int moveXDir = 0;
+	private int moveYDir = 0;
+	private boolean wentLeft = false;
 	public fuelFocus(Car car) {
 		super(car);
 		
@@ -37,44 +47,191 @@ public class fuelFocus extends CarController{
 		prevTurns = new HashMap<Coordinate, world.WorldSpatial.RelativeDirection>();
 		finalDestination = new ArrayList<Coordinate>();
 	}
+
+	void goToPos(Coordinate coord, Coordinate currentPos) {
+		if(coord.x > currentPos.x) {
+
+		}else if(coord.x < currentPos.x) {
+
+		}
+
+	}
 	
 	// Coordinate initialGuess;
 	// boolean notSouth = true;
 	@Override
 	public void update() {
+
+
+		//goToPos(new Coordinate(35, 1), new Coordinate(getPosition()));
+
 		// Gets what the car can see
 		HashMap<Coordinate, MapTile> currentView = getView();
+		checkForExit(new Coordinate(getPosition()), currentView);
 		// checkStateChange();
 		if(getSpeed() < CAR_MAX_SPEED){       // Need speed to turn and progress toward the exit
-			applyForwardAcceleration();   // Tough luck if there's a wall in the way
+			 if((this.exit == null) && (!checkWallAhead(getOrientation(), currentView))) {
+				 applyForwardAcceleration();
+			 }
 		}
 		System.out.println(world.World.MAP_HEIGHT);
 		Coordinate current_coord = new Coordinate(getPosition());
 		if (this.numParcelsFound() < this.numParcels()) {
 			// check if a parcel has been collected
 			discovered_parcel(currentView, current_coord);
-			
+
 			// searches for any new parcels
 			find_parcels();
 			System.out.println("num of parcels located is" + parcels_to_collect.size());
 			// tries navigating on short route to parcel
 			if (parcels_to_collect.size() >0) {
 				if (shortest_path_turn(parcels_to_collect, getOrientation(), currentView)) {
-					
-				}	
+
+				}
 			}
+			loopAvoidance(current_coord);
+
+			// car turns direction if path has a recommended turn
+			permitted_Turn(current_coord, getOrientation(), currentView);
 		}
 		else {
-			// go to end
-			
+			startedExit = true;
+			if(exit != null) {
+				System.out.println("FOUND EXIT");
+				goToExit(current_coord);
+			}else {
+
+			}
+
 		}
-		loopAvoidance(current_coord);
-		
-		// car turns direction if path has a recommended turn
-		permitted_Turn(current_coord, getOrientation(), currentView);
+
 		
 	}
-	
+
+	private void turnToOrient(WorldSpatial.Direction orientation, WorldSpatial.Direction neededOrientation) {
+		if(orientation != neededOrientation) {
+			if(checkLeftWall(orientation, getView())) {
+				turnRight();
+			}else {
+				turnLeft();
+			}
+		}
+	}
+
+	private boolean moveX(float x) {
+		boolean madeTurn = false;
+		if(x > 0) {
+			System.out.println("NEED TO MOVE EAST");
+
+			if(getOrientation() == WorldSpatial.Direction.EAST) {
+				if(getSpeed() == 0) {
+					applyForwardAcceleration();
+				}
+
+			}else if(getOrientation() == WorldSpatial.Direction.WEST) {
+				if(getSpeed() == 0) {
+					applyReverseAcceleration();
+				}
+
+			}else {
+				madeTurn = true;
+				applyBrake();
+				turnToOrient(getOrientation(), WorldSpatial.Direction.EAST);
+			}
+
+
+		}else if(x < 0){
+			System.out.println("NEED TO MOVE WEST");
+			System.out.println(getOrientation());
+			if(getOrientation() == WorldSpatial.Direction.WEST) {
+				applyForwardAcceleration();
+
+			}else if(getOrientation() == WorldSpatial.Direction.EAST) {
+				applyReverseAcceleration();
+
+			}else {
+				madeTurn = true;
+				applyBrake();
+				turnToOrient(getOrientation(), WorldSpatial.Direction.WEST);
+			}
+
+		}else {
+			applyBrake();
+		}
+		return madeTurn;
+	}
+
+	private void moveY(float y) {
+		if(y > 0) {
+			System.out.println("NEED TO MOVE NORTH");
+			if(getOrientation() == WorldSpatial.Direction.NORTH) {
+				if(getSpeed() == 0) {
+					applyForwardAcceleration();
+				}
+
+			}else if(getOrientation() == WorldSpatial.Direction.SOUTH) {
+				if(getSpeed() == 0) {
+					applyReverseAcceleration();
+				}
+			}else {
+				applyBrake();
+				turnToOrient(getOrientation(), WorldSpatial.Direction.NORTH);
+			}
+
+		}else {
+			System.out.println("NEED TO MOVE SOUTH");
+			if(getOrientation() == WorldSpatial.Direction.SOUTH) {
+				applyForwardAcceleration();
+			}else if(getOrientation() == WorldSpatial.Direction.NORTH) {
+				applyReverseAcceleration();
+			}else {
+				applyBrake();
+				turnToOrient(getOrientation(), WorldSpatial.Direction.SOUTH);
+			}
+
+		}
+	}
+
+	private void goToExit(Coordinate currentPos) {
+
+		if(nextBackTrackCoord == null) {
+			if(recordedSteps.size() == 0) {
+				nextBackTrackCoord = exit.getCoord();
+			}else {
+				nextBackTrackCoord = recordedSteps.remove(recordedSteps.size()-1);
+			}
+		}
+		if((nextBackTrackCoord.x == currentPos.x) && (nextBackTrackCoord.y == currentPos.y)) {
+			nextBackTrackCoord = null;
+		}else {
+			System.out.println("COORD TO REACH is " + nextBackTrackCoord.toString());
+			if(nextBackTrackCoord.x != currentPos.x) {
+				System.out.println("NEED TO MOVE IN X");
+				moveX(nextBackTrackCoord.x - currentPos.x);
+			}
+			if(nextBackTrackCoord.y != currentPos.y) {
+				System.out.println("NEED TO MOVE IN Y");
+				moveY(nextBackTrackCoord.y - currentPos.y);
+			}
+		}
+	}
+
+	private void checkForExit(Coordinate currentPos, HashMap<Coordinate, MapTile> currentView) {
+
+		for(int i = currentPos.x-4; i <= currentPos.x+4; i++) {
+			for (int j = currentPos.y - 4; j <= currentPos.y + 4; j++) {
+				Coordinate coord = new Coordinate(i, j);
+				MapTile tile = currentView.get(coord);
+				if(tile.isType(MapTile.Type.FINISH) && !startedExit) {
+					this.exit = new Exit();
+					this.exit.setCoord(coord);
+
+				}
+			}
+		}
+	}
+
+
 	private void permitted_Turn(Coordinate current_coord, WorldSpatial.Direction orientation,HashMap<Coordinate, MapTile> currentView) {
 		if (turn == null) {
 			if(!checkWallAhead(getOrientation(), currentView)) {
@@ -93,6 +250,9 @@ public class fuelFocus extends CarController{
 					turnLeft();
 					turn = null;
 					prevTurns.put(current_coord, world.WorldSpatial.RelativeDirection.LEFT);
+					if(exit != null) {
+						recordedSteps.add(current_coord);
+					}
 					break;
 				}
 				else {
@@ -104,6 +264,9 @@ public class fuelFocus extends CarController{
 				if (!checkRightWall(getOrientation(), currentView)) {
 					turnRight();
 					prevTurns.put(current_coord, world.WorldSpatial.RelativeDirection.RIGHT);
+					if(exit != null) {
+						recordedSteps.add(current_coord);
+					}
 					turn = null;
 					break;
 				}

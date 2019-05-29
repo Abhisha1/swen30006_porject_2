@@ -16,7 +16,7 @@ import world.WorldSpatial;
 public class FuelStrategy extends CarController{
 	// How many minimum units the wall is away from the player.
 	private int wallSensitivity = 1;
-	
+	private boolean loopAvoidance = false;
 	// Car Speed to move at
 	private final int CAR_MAX_SPEED = 1;
 	
