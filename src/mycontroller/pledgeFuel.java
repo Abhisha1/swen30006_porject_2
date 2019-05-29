@@ -57,7 +57,8 @@ public class pledgeFuel extends CarController{
 		if (this.numParcelsFound() < this.numParcels()) {
 			// check if a parcel has been collected
 			if (isParcelNear(currentView, current_coord)) {
-				// get the parcel
+				shortest_path_turn(parcels_to_collect,getOrientation(),currentView);
+				permitted_Turn(current_coord, getOrientation(), currentView);
 			}
 			else{
 				pathExplorer(currentView);
@@ -65,10 +66,46 @@ public class pledgeFuel extends CarController{
 			discoveredParcel(currentView, current_coord);
 			
 		}
-		else {
-			// go home
-		}
 		
+	}
+	private void permitted_Turn(Coordinate current_coord, WorldSpatial.Direction orientation,HashMap<Coordinate, MapTile> currentView) {
+		if (turn == null) {
+			if(!checkWallAhead(getOrientation(), currentView)) {
+			}
+			else {
+				turn = world.WorldSpatial.RelativeDirection.LEFT;
+				permitted_Turn(current_coord, orientation,currentView);
+			}
+		}
+		else{
+			System.out.print("WILL TURN"+turn.toString());
+			switch(turn) {
+			case LEFT:
+				if (!checkLeftWall(getOrientation(), currentView)) {
+					turnLeft();
+					turn = null;
+					break;
+				}
+				else {
+					turn = world.WorldSpatial.RelativeDirection.RIGHT;
+					permitted_Turn(current_coord, orientation,currentView);
+					break;
+				}
+			case RIGHT:
+				if (!checkRightWall(getOrientation(), currentView)) {
+					turnRight();
+					turn = null;
+					break;
+				}
+				else {
+					turn = null;
+					permitted_Turn(current_coord, orientation,currentView);
+					break;
+				}
+			default:
+				break;
+			}
+		}
 	}
 	private boolean isParcelNear(HashMap<Coordinate, MapTile> currentView, Coordinate currentCoord) {
 		for(Coordinate parcels: parcels_to_collect) {
@@ -78,7 +115,70 @@ public class pledgeFuel extends CarController{
 		}
 		return false;
 	}
+	private boolean shortest_path_turn(ArrayList<Coordinate> destination,WorldSpatial.Direction orientation, HashMap<Coordinate, MapTile> currentView){
+		switch(orientation) {
+		case EAST:
+			turn = advance_vertical(destination, orientation, currentView);
+			return true;
+		case NORTH:
+			turn = advance_horizontal(destination, orientation, currentView);
+			return true;
+		case SOUTH:
+			turn = advance_horizontal(destination, orientation, currentView);
+			return true;
+		case WEST:
+			turn = advance_vertical(destination, orientation, currentView);
+			return true;
+		default:
+			return false;
+		}
+	}
 	
+	public world.WorldSpatial.RelativeDirection advance_horizontal(ArrayList<Coordinate> destination,WorldSpatial.Direction orientation,HashMap<Coordinate, MapTile> currentView) {
+		Coordinate currentPosition = new Coordinate(getPosition());
+		System.out.print("the parcel x is "+destination.get(0).x+"but xar"+currentPosition.x);
+		switch(orientation) {
+		case NORTH:
+			if (currentPosition.x < destination.get(0).x) {
+				return world.WorldSpatial.RelativeDirection.RIGHT; 
+			}
+			else if (currentPosition.x > destination.get(0).x) {
+				return world.WorldSpatial.RelativeDirection.LEFT;
+			}return null;
+		case SOUTH:
+			if (currentPosition.x < destination.get(0).x) {
+				return world.WorldSpatial.RelativeDirection.LEFT;
+			}
+			else if (currentPosition.x > destination.get(0).x) {
+				return world.WorldSpatial.RelativeDirection.RIGHT;
+			}return null;
+		default:
+			return null;
+		}
+	}
+	
+	public world.WorldSpatial.RelativeDirection advance_vertical(ArrayList<Coordinate> destination, WorldSpatial.Direction orientation, HashMap<Coordinate, MapTile> currentView) {
+		Coordinate currentPosition = new Coordinate(getPosition());
+		System.out.print("the parcel y is "+destination.get(0).y+"but yar"+currentPosition.y);
+		switch(orientation) {
+		case EAST:
+			if (currentPosition.y < destination.get(0).y) {
+				return world.WorldSpatial.RelativeDirection.LEFT; 
+			}
+			else if (currentPosition.y > destination.get(0).y) {
+				return world.WorldSpatial.RelativeDirection.RIGHT;
+			}return null;
+		case WEST:
+			if (currentPosition.y < destination.get(0).y) {
+				return world.WorldSpatial.RelativeDirection.RIGHT;
+			}
+			else if (currentPosition.y > destination.get(0).y) {
+				return world.WorldSpatial.RelativeDirection.LEFT;
+			}return null;
+		default:
+			return null;
+		}
+	}
 	
 	private void pathExplorer(HashMap<Coordinate, MapTile> currentView) {
 		while(counter != 0) {
@@ -104,7 +204,6 @@ public class pledgeFuel extends CarController{
 			}
 		}
 	}
-	
 	
 	private void discoveredParcel(HashMap<Coordinate, MapTile> currentView, Coordinate coord) {
 		for (Coordinate parcel_coordinates: parcels_to_collect) {
