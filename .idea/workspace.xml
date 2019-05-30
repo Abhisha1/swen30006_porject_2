@@ -2,12 +2,41 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="27096410-dc83-4aff-adc8-b461439785b5" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/mycontroller/BackTrack.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/mycontroller/Bundle.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/mycontroller/ControllerContext.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/mycontroller/FuelFocussed.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/mycontroller/StrategyFactory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/mycontroller/TurnHelper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/Driving.Properties" beforeDir="false" afterPath="$PROJECT_DIR$/assets/Driving.Properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/hard-map.tmx" beforeDir="false" afterPath="$PROJECT_DIR$/assets/hard-map.tmx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/log/output.log" beforeDir="false" afterPath="$PROJECT_DIR$/assets/log/output.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/Driving.Properties" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Driving.Properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/controller/SimpleAutoController.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/controller/SimpleAutoController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/hard-map.tmx" beforeDir="false" afterPath="$PROJECT_DIR$/bin/hard-map.tmx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/log/output.log" beforeDir="false" afterPath="$PROJECT_DIR$/bin/log/output.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mycontroller/fuelFocus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mycontroller/fuelFocus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/mycontroller/FuelFocusAutoControllerStrategy$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/mycontroller/FuelFocusAutoControllerStrategy.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/mycontroller/FuelFocusedShortestPath$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/mycontroller/FuelFocusedShortestPath.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/mycontroller/FuelStrategy$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/mycontroller/FuelStrategy.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/mycontroller/IAutoControllerStrategy.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/mycontroller/IStrategy.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/mycontroller/IStrategy.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/mycontroller/MyAutoController$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/mycontroller/MyAutoController.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/mycontroller/MyAutoController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/mycontroller/fuelFocus$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/mycontroller/fuelFocus$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/mycontroller/fuelFocus.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/mycontroller/fuelFocus.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/SimpleAutoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/SimpleAutoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mycontroller/FuelFocusAutoControllerStrategy.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mycontroller/FuelFocusedShortestPath.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mycontroller/FuelStrategy.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mycontroller/IAutoControllerStrategy.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mycontroller/IStrategy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mycontroller/IStrategy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mycontroller/MyAutoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mycontroller/MyAutoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mycontroller/fuelFocus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mycontroller/FuelFocus.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/bin/" />
@@ -23,40 +52,45 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/mycontroller/MyAutoController.java">
+        <entry file="file://$PROJECT_DIR$/src/mycontroller/FuelFocus.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="52" selection-start-line="52" selection-end-line="52" />
+            <state relative-caret-position="-6291">
+              <caret line="15" column="47" lean-forward="true" selection-start-line="15" selection-start-column="47" selection-end-line="15" selection-end-column="47" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/assets/Driving.Properties">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="5" selection-start-line="5" selection-end-line="5" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/assets/Driving.Properties">
+        <entry file="file://$PROJECT_DIR$/src/mycontroller/BackTrack.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="11" column="11" selection-start-line="11" selection-start-column="11" selection-end-line="11" selection-end-column="11" />
+            <state relative-caret-position="336">
+              <caret line="37" column="50" lean-forward="true" selection-start-line="37" selection-start-column="50" selection-end-line="37" selection-end-column="50" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#597#598#0" expanded="true" />
+                <element signature="e#623#624#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/mycontroller/fuelFocus.java">
+        <entry file="file://$PROJECT_DIR$/src/mycontroller/TurnHelper.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="441">
-              <caret line="197" column="40" selection-start-line="197" selection-start-column="40" selection-end-line="197" selection-end-column="40" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/world/World.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="126">
-              <caret line="132" selection-start-line="132" selection-end-line="132" />
+            <state relative-caret-position="-6">
+              <caret line="78" column="18" selection-start-line="78" selection-start-column="18" selection-end-line="78" selection-end-column="18" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -65,59 +99,54 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/tiles/HealthTrap.java">
+        <entry file="file://$PROJECT_DIR$/src/mycontroller/IStrategy.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="68">
-              <caret line="4" column="35" selection-start-line="4" selection-start-column="35" selection-end-line="4" selection-end-column="35" />
+              <caret line="4" column="4" selection-start-line="4" selection-start-column="4" selection-end-line="4" selection-end-column="4" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/world/Car.java">
+        <entry file="file://$PROJECT_DIR$/src/mycontroller/ControllerContext.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2652">
-              <caret line="193" column="9" selection-start-line="193" selection-start-column="9" selection-end-line="193" selection-end-column="9" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/tiles/MapTile.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="7" column="22" selection-start-line="7" selection-start-column="22" selection-end-line="7" selection-end-column="22" />
+            <state relative-caret-position="595">
+              <caret line="35" column="55" selection-start-line="35" selection-start-column="55" selection-end-line="35" selection-end-column="55" />
               <folding>
-                <element signature="e#272#273#0" expanded="true" />
-                <element signature="e#303#304#0" expanded="true" />
+                <element signature="imports" expanded="true" />
+                <element signature="e#310#311#0" expanded="true" />
+                <element signature="e#340#341#0" expanded="true" />
+                <element signature="e#333#334#0" expanded="true" />
+                <element signature="e#375#376#0" expanded="true" />
+                <element signature="e#390#391#0" expanded="true" />
+                <element signature="e#409#410#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/tiles/GrassTrap.java">
+        <entry file="file://$PROJECT_DIR$/src/mycontroller/MyAutoController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="7" column="47" selection-start-line="7" selection-start-column="47" selection-end-line="7" selection-end-column="47" />
+            <state relative-caret-position="306">
+              <caret line="18" column="22" selection-start-line="18" selection-start-column="22" selection-end-line="18" selection-end-column="22" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#675#676#0" expanded="true" />
+                <element signature="e#690#691#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/world/WorldSpatial.java">
+        <entry file="file://$PROJECT_DIR$/src/mycontroller/StrategyFactory.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/swen30006/driving/desktop/DesktopLauncher.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="9" column="26" selection-start-line="9" selection-start-column="26" selection-end-line="9" selection-end-column="26" />
+            <state relative-caret-position="170">
+              <caret line="10" column="76" selection-start-line="10" selection-start-column="76" selection-end-line="10" selection-end-column="76" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -128,6 +157,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
+        <option value="AnnotationType" />
         <option value="Class" />
       </list>
     </option>
@@ -137,6 +167,7 @@
       <find>turn</find>
       <find>turnLeft</find>
       <find>turnRig</find>
+      <find>checkEast</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -149,18 +180,22 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/mycontroller/Exit.java" />
-        <option value="$PROJECT_DIR$/src/mycontroller/IStrategy.java" />
-        <option value="$PROJECT_DIR$/src/mycontroller/MyAutoController.java" />
         <option value="$PROJECT_DIR$/src/mycontroller/FuelStrategy.java" />
-        <option value="$PROJECT_DIR$/src/mycontroller/fuelFocus.java" />
+        <option value="$PROJECT_DIR$/src/mycontroller/AutoWired.java" />
+        <option value="$PROJECT_DIR$/src/mycontroller/Intent.java" />
+        <option value="$PROJECT_DIR$/src/mycontroller/NewStrategy.java" />
+        <option value="$PROJECT_DIR$/src/mycontroller/FuelFocussed.java" />
+        <option value="$PROJECT_DIR$/src/controller/SimpleAutoController.java" />
+        <option value="$PROJECT_DIR$/src/mycontroller/TurnHelper.java" />
+        <option value="$PROJECT_DIR$/src/mycontroller/StrategyFactory.java" />
+        <option value="$PROJECT_DIR$/src/mycontroller/MyAutoController.java" />
+        <option value="$PROJECT_DIR$/src/mycontroller/Bundle.java" />
+        <option value="$PROJECT_DIR$/src/mycontroller/ControllerContext.java" />
+        <option value="$PROJECT_DIR$/src/mycontroller/BackTrack.java" />
         <option value="$PROJECT_DIR$/assets/Driving.Properties" />
-      </list>
-    </option>
-  </component>
-  <component name="ProjectConfigurationFiles">
-    <option name="files">
-      <list>
-        <option value="$PROJECT_DIR$/.idea/vcs.xml" />
+        <option value="$PROJECT_DIR$/src/mycontroller/IStrategy.java" />
+        <option value="$PROJECT_DIR$/src/mycontroller/fuelFocus.java" />
+        <option value="$PROJECT_DIR$/src/mycontroller/FuelFocus.java" />
       </list>
     </option>
   </component>
@@ -175,13 +210,17 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
               <item name="P2-V2" type="b2602c69:ProjectViewProjectNode" />
               <item name="P2-V2" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="P2-V2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="P2-V2" type="462c0819:PsiDirectoryNode" />
+              <item name="assets" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="P2-V2" type="b2602c69:ProjectViewProjectNode" />
@@ -204,7 +243,7 @@
               <item name="P2-V2" type="b2602c69:ProjectViewProjectNode" />
               <item name="P2-V2" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="tiles" type="462c0819:PsiDirectoryNode" />
+              <item name="driving" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="P2-V2" type="b2602c69:ProjectViewProjectNode" />
@@ -217,6 +256,7 @@
         </subPane>
       </pane>
       <pane id="Scope" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -233,6 +273,7 @@
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="restartRequiresConfirmation" value="false" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
   </component>
   <component name="RunDashboard">
@@ -340,24 +381,28 @@
       <workItem from="1559008137179" duration="14715000" />
       <workItem from="1559043416381" duration="4189000" />
       <workItem from="1559096207303" duration="11890000" />
-      <workItem from="1559110960407" duration="2900000" />
+      <workItem from="1559110960407" duration="3483000" />
+      <workItem from="1559131372845" duration="1933000" />
+      <workItem from="1559174645911" duration="18260000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="39969000" />
+    <option name="totallyTimeSpent" value="60745000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="2576" height="1416" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19594595" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1991256" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
       <window_info id="UI Designer" order="4" />
       <window_info id="Capture Tool" order="5" />
       <window_info id="Favorites" order="6" side_tool="true" />
+      <window_info anchor="bottom" id="Duplicates" weight="0.32969603" />
+      <window_info anchor="bottom" id="Inspection Results" weight="0.32969603" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32969603" />
       <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32969603" />
@@ -381,6 +426,37 @@
       <window_info anchor="right" id="Capture Analysis" order="7" />
       <window_info anchor="right" id="Palette&#9;" order="8" />
     </layout>
+    <layout-to-restore>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1991256" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Image Layers" order="2" />
+      <window_info id="Designer" order="3" />
+      <window_info id="UI Designer" order="4" />
+      <window_info id="Capture Tool" order="5" />
+      <window_info id="Favorites" order="6" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32969603" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32969603" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.3998441" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="8" />
+      <window_info anchor="bottom" id="Database Changes" order="9" />
+      <window_info anchor="bottom" id="Terminal" order="10" />
+      <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
+      <window_info anchor="bottom" id="Messages" order="12" weight="0.32969603" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Palette" order="3" />
+      <window_info anchor="right" id="Database" order="4" />
+      <window_info anchor="right" id="Theme Preview" order="5" />
+      <window_info anchor="right" id="Maven" order="6" />
+      <window_info anchor="right" id="Capture Analysis" order="7" />
+      <window_info anchor="right" id="Palette&#9;" order="8" />
+    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -403,16 +479,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/swen30006/driving/Simulation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1394">
-          <caret line="109" column="72" selection-start-line="109" selection-start-column="72" selection-end-line="109" selection-end-column="72" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/controller/ManualController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
@@ -427,29 +493,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/mycontroller/IStrategy.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="31" selection-start-line="3" selection-start-column="31" selection-end-line="3" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/mycontroller/FuelStrategy.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="595">
           <caret line="98" column="51" lean-forward="true" selection-start-line="98" selection-start-column="51" selection-end-line="98" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/mycontroller/FuelFocusAutoControllerStrategy.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-544">
-          <caret line="22" column="19" lean-forward="true" selection-start-line="22" selection-start-column="19" selection-end-line="22" selection-end-column="19" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#590#591#0" expanded="true" />
-            <element signature="e#607#608#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -464,26 +511,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/controller/SimpleAutoController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1037">
-          <caret line="68" column="19" selection-start-line="68" selection-start-column="19" selection-end-line="68" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/controller/CarController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="648">
-          <caret line="121" column="4" lean-forward="true" selection-start-line="121" selection-start-column="4" selection-end-line="121" selection-end-column="4" />
-          <folding>
-            <element signature="e#1430#1431#0" expanded="true" />
-            <element signature="e#1457#1458#0" expanded="true" />
-            <element signature="e#1905#1906#0" expanded="true" />
-            <element signature="e#1939#1940#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/tiles/TrapTile.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
@@ -491,17 +518,22 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/mycontroller/FuelFocusAutoControllerStrategy.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1126">
+          <caret line="22" column="19" selection-start-line="22" selection-start-column="19" selection-end-line="22" selection-end-column="19" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#590#591#0" expanded="true" />
+            <element signature="e#607#608#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/tiles/HealthTrap.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
           <caret line="4" column="35" selection-start-line="4" selection-start-column="35" selection-end-line="4" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/world/Car.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2652">
-          <caret line="193" column="9" selection-start-line="193" selection-start-column="9" selection-end-line="193" selection-end-column="9" />
         </state>
       </provider>
     </entry>
@@ -537,37 +569,188 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/swen30006/driving/Simulation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-440">
+          <caret line="75" column="80" selection-start-line="75" selection-start-column="53" selection-end-line="75" selection-end-column="80" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/world/Car.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="217">
+          <caret line="62" column="64" selection-start-line="62" selection-start-column="64" selection-end-line="62" selection-end-column="64" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://D:/Program Files/Java/jdk-11.0.1+13/lib/src.zip!/java.base/java/lang/Class.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="278">
+          <caret line="652" column="22" selection-start-line="652" selection-start-column="22" selection-end-line="652" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mycontroller/AutoWired.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" column="25" selection-start-line="11" selection-start-column="25" selection-end-line="11" selection-end-column="25" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/world/World.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="132" selection-start-line="132" selection-end-line="132" />
+        <state relative-caret-position="472">
+          <caret line="132" column="28" lean-forward="true" selection-start-line="132" selection-start-column="28" selection-end-line="132" selection-end-column="28" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/mycontroller/MyAutoController.java">
+    <entry file="file://$PROJECT_DIR$/src/controller/CarController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="52" selection-start-line="52" selection-end-line="52" />
+        <state relative-caret-position="544">
+          <caret line="46" column="16" selection-start-line="46" selection-start-column="16" selection-end-line="46" selection-end-column="16" />
+          <folding>
+            <element signature="e#742#743#0" expanded="true" />
+            <element signature="e#763#764#0" expanded="true" />
+            <element signature="e#1430#1431#0" expanded="true" />
+            <element signature="e#1457#1458#0" expanded="true" />
+            <element signature="e#1905#1906#0" expanded="true" />
+            <element signature="e#1939#1940#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mycontroller/NewStrategy.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" selection-start-line="6" selection-end-line="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/controller/SimpleAutoController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="453">
+          <caret line="36" column="96" lean-forward="true" selection-start-line="36" selection-start-column="96" selection-end-line="36" selection-end-column="96" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mycontroller/StrategyFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="76" selection-start-line="10" selection-start-column="76" selection-end-line="10" selection-end-column="76" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/mycontroller/fuelFocus.java">
+    <entry file="file://$PROJECT_DIR$/src/mycontroller/FuelFocussed.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="441">
-          <caret line="197" column="40" selection-start-line="197" selection-start-column="40" selection-end-line="197" selection-end-column="40" />
+        <state relative-caret-position="374">
+          <caret line="28" column="54" selection-start-line="28" selection-start-column="54" selection-end-line="28" selection-end-column="54" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mycontroller/Bundle.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="26" column="43" selection-start-line="26" selection-start-column="43" selection-end-line="26" selection-end-column="43" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#424#425#0" expanded="true" />
+            <element signature="e#448#449#0" expanded="true" />
+            <element signature="e#532#533#0" expanded="true" />
+            <element signature="e#570#571#0" expanded="true" />
+            <element signature="e#724#725#0" expanded="true" />
+            <element signature="e#760#761#0" expanded="true" />
+            <element signature="e#841#842#0" expanded="true" />
+            <element signature="e#877#878#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mycontroller/TurnHelper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-6">
+          <caret line="78" column="18" selection-start-line="78" selection-start-column="18" selection-end-line="78" selection-end-column="18" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mycontroller/IStrategy.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="4" selection-start-line="4" selection-start-column="4" selection-end-line="4" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mycontroller/ControllerContext.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="595">
+          <caret line="35" column="55" selection-start-line="35" selection-start-column="55" selection-end-line="35" selection-end-column="55" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#310#311#0" expanded="true" />
+            <element signature="e#340#341#0" expanded="true" />
+            <element signature="e#333#334#0" expanded="true" />
+            <element signature="e#375#376#0" expanded="true" />
+            <element signature="e#390#391#0" expanded="true" />
+            <element signature="e#409#410#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/assets/Driving.Properties">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="11" selection-start-line="11" selection-start-column="11" selection-end-line="11" selection-end-column="11" />
+        <state relative-caret-position="85">
+          <caret line="5" selection-start-line="5" selection-end-line="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mycontroller/MyAutoController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" column="22" selection-start-line="18" selection-start-column="22" selection-end-line="18" selection-end-column="22" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#675#676#0" expanded="true" />
+            <element signature="e#690#691#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mycontroller/FuelFocus.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-6291">
+          <caret line="15" column="47" lean-forward="true" selection-start-line="15" selection-start-column="47" selection-end-line="15" selection-end-column="47" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mycontroller/BackTrack.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="336">
+          <caret line="37" column="50" lean-forward="true" selection-start-line="37" selection-start-column="50" selection-end-line="37" selection-end-column="50" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#597#598#0" expanded="true" />
+            <element signature="e#623#624#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

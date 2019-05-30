@@ -118,7 +118,7 @@ public class SimpleAutoController extends CarController {
 		}
 		return false;
 	}
-	
+
 	public boolean checkWest(HashMap<Coordinate,MapTile> currentView){
 		// Check tiles to my left
 		Coordinate currentPosition = new Coordinate(getPosition());
@@ -130,7 +130,7 @@ public class SimpleAutoController extends CarController {
 		}
 		return false;
 	}
-	
+
 	public boolean checkNorth(HashMap<Coordinate,MapTile> currentView){
 		// Check tiles to towards the top
 		Coordinate currentPosition = new Coordinate(getPosition());
@@ -142,7 +142,7 @@ public class SimpleAutoController extends CarController {
 		}
 		return false;
 	}
-	
+
 	public boolean checkSouth(HashMap<Coordinate,MapTile> currentView){
 		// Check tiles towards the bottom
 		Coordinate currentPosition = new Coordinate(getPosition());

@@ -1,5 +1,6 @@
 package mycontroller;
 
 public interface IStrategy {
-    void registerExit(Exit exit);
+    void switchStrategy(String strategyName);
+    void parseBundle(Bundle strategyBundle);
 }
