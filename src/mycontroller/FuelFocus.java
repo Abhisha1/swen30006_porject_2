@@ -24,7 +24,6 @@ public class FuelFocus extends CarController implements IStrategy {
 
 	public Exit exit = null;
 
-	private world.WorldSpatial.RelativeDirection turn;
 
 	private ArrayList<Coordinate> parcelsToCollect;
 
@@ -34,7 +33,7 @@ public class FuelFocus extends CarController implements IStrategy {
 
 	private ArrayList<Coordinate> recordedSteps = new ArrayList<>();
 
-	private int counter = 1;
+	private Integer counter = 1;
 
 	private Coordinate nextBackTrackCoord = null;
 
@@ -42,18 +41,24 @@ public class FuelFocus extends CarController implements IStrategy {
 
 	private boolean startedExit = false;
 
+	private EnumReference<WorldSpatial.RelativeDirection> turn = new EnumReference<>();
+
 	private ControllerContext context;
+
+	private Pledge pledge;
 
 	public FuelFocus(Car car, ControllerContext context) {
 		super(car);
 		this.context = context;
 		// Store parcels needing to be collected
-		parcelsToCollect = new ArrayList<Coordinate>();
+		parcelsToCollect = new ArrayList<>();
 		// Store previous turns and their coordinates
-		prevTurns = new HashMap<Coordinate, world.WorldSpatial.RelativeDirection>();
+		prevTurns = new HashMap<>();
 
 		// Store all destination tiles
-		finalDestination = new ArrayList<Coordinate>();
+		finalDestination = new ArrayList<>();
+
+		pledge = new Pledge(counter, wallSensitivity);
 	}
 
 	public void switchStrategy(String strategyName) {
@@ -64,7 +69,8 @@ public class FuelFocus extends CarController implements IStrategy {
 	}
 
 	public void parseBundle(Bundle strategyBundle) {
-
+		// We dont need to parse anything, since we assume that
+		// we are an exploration class.
 	}
 
 	@Override
@@ -83,7 +89,7 @@ public class FuelFocus extends CarController implements IStrategy {
 		System.out.println(world.World.MAP_HEIGHT);
 		if (this.numParcelsFound() < this.numParcels()) {
 			// check if a parcel has been collected
-			discoveredParcel(currentView, currentCoord);
+			AlgorithmHelper.discoveredParcel(currentView, parcelsToCollect, currentCoord);
 
 			// searches for any new parcels
 			findParcels();
@@ -91,7 +97,7 @@ public class FuelFocus extends CarController implements IStrategy {
 			// If some parcels have been found already, go to the parcel
 			if (parcelsToCollect.size() >0) {
 				shortestPathTurn(parcelsToCollect, getOrientation(), currentView);
-				loopAvoidance(currentCoord);
+				AlgorithmHelper.loopAvoidance(prevTurns, turn, currentCoord);
 				permittedTurn(currentCoord, getOrientation(), currentView);
 			}
 			// Explore path for parcels
@@ -111,7 +117,7 @@ public class FuelFocus extends CarController implements IStrategy {
 				else {
 					shortestPathTurn(finalDestination, getOrientation(), currentView);
 					permittedTurn(currentCoord, getOrientation(), currentView);
-					if (loopAvoidance(currentCoord)) {
+					if (AlgorithmHelper.loopAvoidance(prevTurns, turn, currentCoord)) {
 						retraceHome = true;
 					}
 				}
@@ -119,98 +125,12 @@ public class FuelFocus extends CarController implements IStrategy {
 			// Explore path for exits
 			else {
 				pathExplorer(currentView);
-				loopAvoidance(currentCoord);
+				AlgorithmHelper.loopAvoidance(prevTurns, turn, currentCoord);
 				permittedTurn(currentCoord, getOrientation(), currentView);
 			}
 
 		}
-
-
 	}
-
-
-	private boolean lavaAvoid(HashMap<Coordinate, MapTile> currentView, Coordinate currentCoord) {
-		/***
-		 * Checks if the direction straight ahead has a consecutive sequence of lava. If so, avoid.
-		 * */
-		for(int i = 0; i < 4; i++) {
-			switch(getOrientation()) {
-				case NORTH:
-					currentCoord = checkUp(currentCoord, currentView);
-					break;
-				case WEST:
-					currentCoord = checkLeft(currentCoord,currentView);
-					break;
-				case SOUTH:
-					currentCoord = checkDown(currentCoord, currentView);
-					break;
-				case EAST:
-					currentCoord = checkRight(currentCoord, currentView);
-					break;
-			}
-			if(currentCoord == null) {
-				return false;
-			}
-
-		}return true;
-	}
-
-	private Coordinate checkUp(Coordinate currentCoord,HashMap<Coordinate, MapTile> currentView) {
-		/***
-		 * Checks if the coordinate straight above is lava.
-		 * */
-		Coordinate coord =  new Coordinate(currentCoord.x, currentCoord.y+1);
-		MapTile tile = currentView.get(coord);
-		if (tile.isType(MapTile.Type.TRAP)){
-			TrapTile trap = (TrapTile) tile;
-			if (trap.getTrap() == "lava") {
-				return coord;
-			}
-		}return null;
-	}
-
-	private Coordinate checkDown(Coordinate currentCoord,HashMap<Coordinate, MapTile> currentView) {
-		/***
-		 * Checks if the coordinate straight below is lava.
-		 * */
-		Coordinate coord = new Coordinate(currentCoord.x, currentCoord.y-1);
-		MapTile tile = currentView.get(coord);
-		if (tile.isType(MapTile.Type.TRAP)){
-			TrapTile trap = (TrapTile) tile;
-			if (trap.getTrap().equals("lava")) {
-				return coord;
-			}
-		}return null;
-	}
-
-	private Coordinate checkLeft(Coordinate currentCoord,HashMap<Coordinate, MapTile> currentView) {
-		/***
-		 * Checks if the coordinate to the left is lava.
-		 * */
-		Coordinate coord = new Coordinate(currentCoord.x+1, currentCoord.y);
-		MapTile tile = currentView.get(coord);
-		if (tile.isType(MapTile.Type.TRAP)){
-			TrapTile trap = (TrapTile) tile;
-			if (trap.getTrap().equals("lava")) {
-				return coord;
-			}
-		}return null;
-	}
-
-	private Coordinate checkRight(Coordinate currentCoord,HashMap<Coordinate, MapTile> currentView) {
-		/***
-		 * Checks if the coordinate to the right is lava.
-		 * */
-		Coordinate coord = new Coordinate(currentCoord.x-1, currentCoord.y);
-		MapTile tile = currentView.get(coord);
-		if (tile.isType(MapTile.Type.TRAP)){
-			TrapTile trap = (TrapTile) tile;
-			if (trap.getTrap().equals("lava")) {
-				return coord;
-			}
-		}return null;
-	}
-
 
 	private void pathExplorer(HashMap<Coordinate, MapTile> currentView) {
 		/***
@@ -221,7 +141,7 @@ public class FuelFocus extends CarController implements IStrategy {
 		while(counter != 0) {
 			// Ensures player will not enter wall by traversing straight ahead nor enter a consective block of lava
 			if (!TurnHelper.checkWallAhead(getOrientation(), currentCoord, currentView, wallSensitivity)
-					&& !lavaAvoid(currentView, currentCoord)) {
+					&& !AlgorithmHelper.lavaAvoid(currentView, getOrientation(), currentCoord)) {
 				break;
 			}
 			// Ensures player will not enter wall by traversing right
@@ -237,6 +157,7 @@ public class FuelFocus extends CarController implements IStrategy {
 				break;
 			}
 		}
+
 	}
 
 	private void checkForExit(Coordinate currentPos, HashMap<Coordinate, MapTile> currentView) {
@@ -262,25 +183,25 @@ public class FuelFocus extends CarController implements IStrategy {
 		 * Uses the suggested move and turns based on whether the move is permitted; player can move without encountering a wall
 		 * If move is invalid, will try another direction until a valid move is found.
 		 * */
-		if (turn == null) {
+		if (turn.getTurn() == null) {
 			// Player traverses straight
 			if(!TurnHelper.checkWallAhead(getOrientation(), currentCoord, currentView, wallSensitivity)) {
 				prevTurns.put(currentCoord, null);
 			}
 			// Player cannot go straight, so try turning left
 			else {
-				turn = world.WorldSpatial.RelativeDirection.LEFT;
+				turn.setTurn(world.WorldSpatial.RelativeDirection.LEFT);
 				permittedTurn(currentCoord, orientation,currentView);
 			}
 		}
 		else{
 			System.out.print("WILL TURN"+turn.toString());
-			switch(turn) {
+			switch(turn.getTurn()) {
 				case LEFT:
 					// Player traverses left
 					if (!TurnHelper.checkLeftWall(getOrientation(), currentCoord, currentView, wallSensitivity)) {
 						turnLeft();
-						turn = null;
+						turn.setTurn(null);
 						prevTurns.put(currentCoord, world.WorldSpatial.RelativeDirection.LEFT);
 						if(exit != null) {
 							recordedSteps.add(currentCoord);
@@ -289,7 +210,7 @@ public class FuelFocus extends CarController implements IStrategy {
 					}
 					// Player cannot go straight, so try turning right
 					else {
-						turn = world.WorldSpatial.RelativeDirection.RIGHT;
+						turn.setTurn(world.WorldSpatial.RelativeDirection.RIGHT);
 						permittedTurn(currentCoord, orientation,currentView);
 						break;
 					}
@@ -301,44 +222,17 @@ public class FuelFocus extends CarController implements IStrategy {
 						if(exit != null) {
 							recordedSteps.add(currentCoord);
 						}
-						turn = null;
+						turn.setTurn(null);
 						break;
 					}
 					// Player cannot go straight, so try traversing straight
 					else {
-						turn = null;
+						turn.setTurn(null);
 						permittedTurn(currentCoord, orientation,currentView);
 						break;
 					}
 				default:
 					break;
-			}
-		}
-	}
-
-	private boolean loopAvoidance(Coordinate coord) {
-		/***
-		 * Checks if player is in loop by seeing if they have made the same move at the same position.
-		 * If so return true and turn right
-		 * */
-		if (prevTurns.containsKey(coord)) {
-			if (prevTurns.get(coord)!= null) {
-				turn = world.WorldSpatial.RelativeDirection.RIGHT;
-			}
-			return true;
-		}
-		return false;
-
-	}
-
-	private void discoveredParcel(HashMap<Coordinate, MapTile> currentView, Coordinate coord) {
-		/***
-		 * Checks if one of located parcels has been picked up by user and removes from parcels to collect
-		 * */
-		for (Coordinate parcelCoordinates: parcelsToCollect) {
-			if (coord.equals(parcelCoordinates)){
-				parcelsToCollect.remove(coord);
-				break;
 			}
 		}
 	}
@@ -378,16 +272,16 @@ public class FuelFocus extends CarController implements IStrategy {
 		 * */
 		switch(orientation) {
 			case EAST:
-				turn = advanceVertical(destination, orientation, currentView);
+				turn.setTurn(advanceVertical(destination, orientation, currentView));
 				return true;
 			case NORTH:
-				turn = advanceHorizontal(destination, orientation, currentView);
+				turn.setTurn(advanceHorizontal(destination, orientation, currentView));
 				return true;
 			case SOUTH:
-				turn = advanceHorizontal(destination, orientation, currentView);
+				turn.setTurn(advanceHorizontal(destination, orientation, currentView));
 				return true;
 			case WEST:
-				turn = advanceVertical(destination, orientation, currentView);
+				turn.setTurn(advanceVertical(destination, orientation, currentView));
 				return true;
 			default:
 				return false;
